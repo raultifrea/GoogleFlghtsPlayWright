@@ -16,7 +16,7 @@ test('Search for flights in Europe', async ({browser}) => {
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await page.getByRole('button', { name: 'Explore' }).first().click();
-    explorePage.changeTripDetails('October', 'Weekend');
+    explorePage.changeTripDetails('September', 'Weekend');
     explorePage.changeStopsNo('Nonstop only');
     await page.waitForTimeout(5000);
     explorePage.printDestinationDetails();

@@ -41,18 +41,28 @@ export default class ExplorePage {
         await this.closeFilters.click();
     }
 
+    /**
+     * @param i the index to check whether it's visible or not
+     * @returns True or False if a destination is visible
+     */
     async isDestinationVisible(i: number): Promise<boolean> {
         return await this.destinations.locator('h3').nth(i).isVisible();
       }
     
+    /**
+     * prints the destination's details from name, period, price, duration and airline
+     */
     async printDestinationDetails() {
         const count = await this.destinations.count();
-        console.log('inside destinations');
         for (let i = 0; i < count; i++) {
             const visible = await this.isDestinationVisible(i);
             if(visible) {
                 const destination = await this.destinations.locator('h3').nth(i).innerText();
-                console.log(destination);
+                const period = await this.destinations.locator('h3 + div').nth(i).innerText();
+                const price = await this.destinations.locator('span span').nth(i).innerText();
+                const duration = await this.destinations.locator('span:nth-of-type(3)').nth(i).innerText();
+                const airline = await this.destinations.locator('[role="img"]').nth(i).getAttribute('aria-label');
+                console.log(`Destination: ${destination}. Period: ${period}. Price: ${price}. Duration: ${duration}. Airline: ${airline}`);
             } else {
                 break
             }
