@@ -2,18 +2,19 @@ import { Locator, Page, expect } from "@playwright/test";
 
 export default class ExplorePage {
     page: Page;
-    tripLength: Locator;
+    defaultTripLength: Locator;
     allFilters: Locator;
     closeFilters: Locator;
-    destinations: Locator
+    destinations: Locator;
+    filtersHeader: Locator;
 
     constructor(page: Page){
         this.page = page;
-        this.tripLength = page.locator('[title="1-week trip in the next 6 months"]');
+        this.defaultTripLength = page.locator('[title="1-week trip in the next 6 months"]');
         this.allFilters = page.locator('//span[contains(text(),"All filters")]');
+        this.filtersHeader = page.locator('//h1[text()="Filters"]');
         this.closeFilters = page.locator("//h1[text()='Filters']//following::div[1]");
         this.destinations = page.locator('ol > li:visible');
-
     }
 
     /**
@@ -22,12 +23,15 @@ export default class ExplorePage {
      * @param duration changes the duration of the searched trip. Options: 'Weekend', '1 week', '2 weeks'
      */
     async changeTripDetails(month: string, duration: string) {
-        await this.tripLength.first().waitFor({state: 'visible'});
-        await this.tripLength.first().click();
+        
+        await this.defaultTripLength.first().waitFor({state: 'visible'});
+        await this.defaultTripLength.first().click({force:true});
         await this.page.locator('span').filter({ hasText: month}).last().click();
         await this.page.locator('span').filter({ hasText: duration}).last().click();
         await this.page.locator('span').filter({ hasText: 'Done'}).last().click();
         await this.page.waitForLoadState('networkidle');
+        expect(this.page.locator(`[title="${duration} trip in ${month}"]`).isVisible).toBeTruthy();
+
     }
 
     /**
@@ -36,9 +40,11 @@ export default class ExplorePage {
      */
     async changeStopsNo(option: string) {
         await this.allFilters.last().click();
+        // expect(this.filtersHeader).toBeVisible();
         await this.page.locator(`//label[text()='${option}']`).click();
         await this.page.waitForLoadState('networkidle');
         await this.closeFilters.click();
+        expect(this.allFilters.last()).toHaveText('All filters (2)');
     }
 
     /**
@@ -53,6 +59,14 @@ export default class ExplorePage {
      * prints the destination's details from name, period, price, duration and airline
      */
     async printDestinationDetails() {
+        interface FlightInfo {
+            Destination: string | null;
+            Period: string | null;
+            Price: Number;
+            Duration: string | null;
+            Airline: string | null;
+          }
+          let flightData: FlightInfo[] = [];
         const count = await this.destinations.count();
         for (let i = 0; i < count; i++) {
             const visible = await this.isDestinationVisible(i);
@@ -62,10 +76,18 @@ export default class ExplorePage {
                 const price = await this.destinations.locator('span span').nth(i).innerText();
                 const duration = await this.destinations.locator('span:nth-of-type(3)').nth(i).innerText();
                 const airline = await this.destinations.locator('[role="img"]').nth(i).getAttribute('aria-label');
-                console.log(`Destination: ${destination}. Period: ${period}. Price: ${price}. Duration: ${duration}. Airline: ${airline}`);
+                flightData.push({
+                    Destination: destination,
+                    Period: period,
+                    Price: Number(price.split('€')[1]),
+                    Duration: duration,
+                    Airline: airline
+                });
             } else {
                 break
             }
         }
+        flightData.sort((a: any, b: any) => a.Price - b.Price);
+        console.table(flightData);
     }
 }

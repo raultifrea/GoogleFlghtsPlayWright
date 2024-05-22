@@ -3,7 +3,7 @@ import FlightsPage from "../PageObjects/FlightsPage";
 import ExplorePage from "../PageObjects/ExplorePage";
 import CommonPage from "../PageObjects/CommonPage";
 
-test('Search for flights in Europe', async ({browser}) => {
+test('Search for nonstop flights in Europe', async ({browser}) => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
@@ -16,8 +16,10 @@ test('Search for flights in Europe', async ({browser}) => {
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await page.getByRole('button', { name: 'Explore' }).first().click();
+    await page.waitForTimeout(1000);
     explorePage.changeTripDetails('September', 'Weekend');
+    await page.waitForTimeout(2000);
     explorePage.changeStopsNo('Nonstop only');
-    await page.waitForTimeout(5000);
+    await page.waitForTimeout(2000);
     explorePage.printDestinationDetails();
 });
