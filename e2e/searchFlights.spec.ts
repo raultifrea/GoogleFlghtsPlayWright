@@ -17,7 +17,7 @@ test('Search for nonstop flights in Europe', async ({browser}) => {
     await page.waitForLoadState('networkidle');
     await page.getByRole('button', { name: 'Explore' }).first().click();
     await page.waitForTimeout(1000);
-    explorePage.changeTripDetails('September', 'Weekend');
+    explorePage.changeTripDetails('August', 'Weekend');
     await page.waitForTimeout(2000);
     explorePage.changeStopsNo('Nonstop only');
     await page.waitForTimeout(2000);

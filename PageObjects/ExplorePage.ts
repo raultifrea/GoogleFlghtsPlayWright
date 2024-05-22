@@ -62,7 +62,7 @@ export default class ExplorePage {
         interface FlightInfo {
             Destination: string | null;
             Period: string | null;
-            Price: Number;
+            Price: string | null;
             Duration: string | null;
             Airline: string | null;
           }
@@ -79,7 +79,7 @@ export default class ExplorePage {
                 flightData.push({
                     Destination: destination,
                     Period: period,
-                    Price: Number(price.split('€')[1]),
+                    Price: price,
                     Duration: duration,
                     Airline: airline
                 });
@@ -87,7 +87,7 @@ export default class ExplorePage {
                 break
             }
         }
-        flightData.sort((a: any, b: any) => a.Price - b.Price);
+        flightData.sort((a: any, b: any) =>  Number(a.Price.split('€')[1]) - Number(b.Price.split('€')[1]));
         console.table(flightData);
     }
 }
