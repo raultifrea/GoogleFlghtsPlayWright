@@ -23,7 +23,6 @@ export default class ExplorePage {
      * @param duration changes the duration of the searched trip. Options: 'Weekend', '1 week', '2 weeks'
      */
     async changeTripDetails(month: string, duration: string) {
-        
         await this.defaultTripLength.first().waitFor({state: 'visible'});
         await this.defaultTripLength.first().click({force:true});
         await this.page.locator('span').filter({ hasText: month}).last().click();
