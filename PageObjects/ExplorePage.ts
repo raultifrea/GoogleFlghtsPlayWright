@@ -1,19 +1,17 @@
 import { Locator, Page, expect } from "@playwright/test";
+import CommonPage from "./CommonPage";
 
-export default class ExplorePage {
+export default class ExplorePage extends CommonPage{
     page: Page;
     defaultTripLength: Locator;
-    allFilters: Locator;
-    closeFilters: Locator;
     destinations: Locator;
     filtersHeader: Locator;
 
     constructor(page: Page){
+        super(page);
         this.page = page;
         this.defaultTripLength = page.locator('[title="1-week trip in the next 6 months"]');
-        this.allFilters = page.locator('//span[contains(text(),"All filters")]');
         this.filtersHeader = page.locator('//h1[text()="Filters"]');
-        this.closeFilters = page.locator("//h1[text()='Filters']//following::div[1]");
         this.destinations = page.locator('ol > li:visible');
     }
 
@@ -39,7 +37,6 @@ export default class ExplorePage {
      */
     async changeStopsNo(option: string) {
         await this.allFilters.last().click();
-        // expect(this.filtersHeader).toBeVisible();
         await this.page.locator(`//label[text()='${option}']`).click();
         await this.page.waitForLoadState('networkidle');
         await this.closeFilters.click();

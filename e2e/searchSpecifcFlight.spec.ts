@@ -3,7 +3,7 @@ import FlightsPage from "../PageObjects/FlightsPage";
 import ExplorePage from "../PageObjects/ExplorePage";
 import CommonPage from "../PageObjects/CommonPage";
 
-test('Search for nonstop flights in Europe', async ({browser}) => {
+test('Search for specific flight', async ({browser}) => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
@@ -21,8 +21,10 @@ test('Search for nonstop flights in Europe', async ({browser}) => {
     await page.waitForTimeout(1000);
     // await page.getByText('Done').last().click();
     await page.getByRole('button', { name: 'Search' }).first().click();
-    await page.waitForTimeout(5000);
-
+    await page.waitForLoadState('networkidle');
+    await flightsPage.changeStopsNo('Nonstop only');
+    await page.waitForTimeout(2000);
+    await flightsPage.printDestinationDetails();
 });
 
    
