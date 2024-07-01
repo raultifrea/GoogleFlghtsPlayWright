@@ -46,10 +46,11 @@ export default class FlightsPage extends CommonPage {
     async setDates(journeyDays: number) {
         let today = await this.getToday();
         let futureDay = await this.getFutureDate(journeyDays);
+        await this.page.waitForTimeout(2000);
         await this.departureDateInput.first().fill(String(today));
-        await this.page.keyboard.press('Enter');
         await this.returnDateInput.first().fill(String(futureDay));
         await this.page.keyboard.press('Enter');
+        await this.page.waitForTimeout(2000);
     }
 
     /**
@@ -65,7 +66,7 @@ export default class FlightsPage extends CommonPage {
     }
 
     /**
-     * prints the destination's details from name, price, duration and airline
+     * prints the destination's details from name, price, duration
      */
     async printDestinationDetails() {
         interface FlightInfo {
@@ -73,7 +74,6 @@ export default class FlightsPage extends CommonPage {
             Route: string | null;
             Duration: string | null;
             Price: string | null;
-            // Airline: string | null;
           }
           let flightData: FlightInfo[] = [];
         const count = await this.destinations.count();
@@ -85,13 +85,11 @@ export default class FlightsPage extends CommonPage {
             const duration = await this.destinations.nth(i).locator(this.durationLocator).innerText();
             const price = await this.destinations.nth(i).locator('span[role="text"]').last().innerText();
             const route = await this.destinations.nth(i).locator(this.durationLocator).locator('xpath=./following-sibling::span[1]').innerText();
-            // const airline = await this.destinations.locator('[role="img"]').nth(i).getAttribute('aria-label');
             flightData.push({
                 Route: route,
                 Hours: deptTime + ' - ' + arrTime,
                 Duration: duration,
                 Price: price,
-                // Airline: airline
             });
             } else {
                 break
