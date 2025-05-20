@@ -2,7 +2,7 @@ import test from "@playwright/test";
 import FlightsPage from "../PageObjects/FlightsPage";
 import CommonPage from "../PageObjects/CommonPage";
 
-test('Search for specific flight', async ({browser}) => {
+test('Search for a specific flight', async ({browser}) => {
     const context = await browser.newContext();
     const page = await context.newPage();
 

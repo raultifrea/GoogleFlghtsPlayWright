@@ -66,7 +66,7 @@ export default class FlightsPage extends CommonPage {
     }
 
     /**
-     * prints the destination's details from name, price, duration
+     * prints the destination's details from name, price, duration/
      */
     async printDestinationDetails() {
         interface FlightInfo {
