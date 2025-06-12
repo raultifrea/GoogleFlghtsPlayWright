@@ -43,7 +43,7 @@ export default class FlightsPage extends CommonPage {
      * sets the dates for this trip starting from today's date
      * @param journeyDays number of days in the future to plan for return trip
      */
-    async setDates(journeyDays: number) {
+    async setLengthOfJourneyFromToday(journeyDays: number) {
         let today = await this.getToday();
         let futureDay = await this.getFutureDate(journeyDays);
         await this.page.waitForTimeout(2000);
@@ -66,7 +66,7 @@ export default class FlightsPage extends CommonPage {
     }
 
     /**
-     * prints the destination's details from name, price, duration/
+     * prints the destination's details from name, price, duration
      */
     async printDestinationDetails() {
         interface FlightInfo {
@@ -74,6 +74,7 @@ export default class FlightsPage extends CommonPage {
             Route: string | null;
             Duration: string | null;
             Price: string | null;
+            Company: string | null;
           }
           let flightData: FlightInfo[] = [];
         const count = await this.destinations.count();
@@ -85,11 +86,13 @@ export default class FlightsPage extends CommonPage {
             const duration = await this.destinations.nth(i).locator(this.durationLocator).innerText();
             const price = await this.destinations.nth(i).locator('span[role="text"]').last().innerText();
             const route = await this.destinations.nth(i).locator(this.durationLocator).locator('xpath=./following-sibling::span[1]').innerText();
+            const company = await this.destinations.nth(i).locator('span[aria-label*="Leaves"]').locator('xpath=ancestor::div[3]//div[count(*)=1]/span[not(@*)]').innerText();
             flightData.push({
                 Route: route,
                 Hours: deptTime + ' - ' + arrTime,
                 Duration: duration,
                 Price: price,
+                Company: company
             });
             } else {
                 break

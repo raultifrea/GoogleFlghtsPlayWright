@@ -47,12 +47,11 @@ export default class ExplorePage extends CommonPage{
 
     /**
      * 
-     * @param date the selected date in this format: DD MON (e.g. 01 Jan)
+     * @param date the selected date in this format: DD MMM (e.g. 01 Jan)
      */
     async setSpecificDates(date: string) {
         await this.defaultTripLength.first().waitFor({state: 'visible'});
         await this.defaultTripLength.first().click({force:true});
-        // await this.page.locator('span').filter({ hasText: 'Specific dates' }).click();
         await this.page.locator("//span[text()='Specific dates']").click();
         await this.inputDepartureData.last().fill(date);
         await this.page.keyboard.press('Enter');

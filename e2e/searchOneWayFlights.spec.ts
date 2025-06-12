@@ -3,7 +3,7 @@ import FlightsPage from "../PageObjects/FlightsPage";
 import ExplorePage from "../PageObjects/ExplorePage";
 import CommonPage from "../PageObjects/CommonPage";
 
-test('Search for nonstop one-way flights in Europe', async ({browser}) => {
+test('Search for nonstop one-way flights in Europe', async ({browser}, testInfo) => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
@@ -11,7 +11,7 @@ test('Search for nonstop one-way flights in Europe', async ({browser}) => {
     const explorePage = new ExplorePage(page);
     const commonPage = new CommonPage(page);
 
-    const originCity = 'Malmö Municipality';
+    const originCity = 'CLJ';
 
     await page.goto('flights')
     await page.getByRole('button', { name: 'Reject all' }).click();
@@ -20,6 +20,8 @@ test('Search for nonstop one-way flights in Europe', async ({browser}) => {
     await commonPage.changeTicketType('One way');
     await flightsPage.whereFromInput.first().fill(originCity);
     await page.locator(`li[aria-label*="${originCity}"]`).first().click();
+    const origin = await flightsPage.whereFromInput.first().inputValue();
+    console.log(`[${testInfo.title}] Origin city is: ${origin}`);
     await page.getByRole('button', { name: 'Explore' }).first().click();
     await page.waitForTimeout(1000);
     explorePage.changeSingleTripDetails('August');
@@ -29,7 +31,7 @@ test('Search for nonstop one-way flights in Europe', async ({browser}) => {
     explorePage.printDestinationDetails(true);
 });
 
-test('Search for nonstop one-way flights with specific dates in Europe', async ({browser}) => {
+test('Search for nonstop one-way flights with specific dates in Europe', async ({browser}, testInfo) => {
     const context = await browser.newContext();
     const page = await context.newPage();
 
@@ -46,6 +48,8 @@ test('Search for nonstop one-way flights with specific dates in Europe', async (
     await commonPage.changeTicketType('One way');
     await flightsPage.whereFromInput.first().fill(originCity);
     await page.locator(`li[aria-label*="${originCity}"]`).first().click();
+    const origin = await flightsPage.whereFromInput.first().inputValue();
+    console.log(`[${testInfo.title}] Origin city is: ${origin}`);
     await page.getByRole('button', { name: 'Explore' }).first().click();
     await page.waitForTimeout(1000);
     explorePage.setSpecificDates('1 Aug');
