@@ -14,12 +14,6 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Set npm registry to public
-      run: npm config set registry https://registry.npmjs.org/
-    - name: Clear npm cache
-      run: npm cache clean --force
-    - name: Check npm config
-      run: npm config list
     - name: Install dependencies (with forced log path)
       run: npm ci --loglevel verbose --logfile ${{ github.workspace }}/npm-debug.log
       # The npm debug log will now be at ${{ github.workspace }}/npm-debug.log
