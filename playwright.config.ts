@@ -31,8 +31,9 @@ export default defineConfig({
     baseURL: 'https://www.google.com/travel/',
     screenshot: 'on',
     headless: true,
+    viewport: { width: 1920, height: 1080 },
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on',
+    trace: 'off',
   },
 
   /* Configure projects for major browsers */
