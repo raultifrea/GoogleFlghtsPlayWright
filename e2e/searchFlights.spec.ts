@@ -10,7 +10,7 @@ test('Search for nonstop flights in Europe', async ({browser}) => {
     const explorePage = new ExplorePage(page);
     const commonPage = new CommonPage(page);
     const flightsPage = new FlightsPage(page)
-    const originCity = 'CLJ';
+    const originCity = 'LHR';
 
 
     await page.goto('flights')
@@ -23,7 +23,7 @@ test('Search for nonstop flights in Europe', async ({browser}) => {
     console.log(`Origin city is: ${origin}`);
     await page.getByRole('button', { name: 'Explore' }).first().click();
     await page.waitForTimeout(1000);
-    explorePage.changeTripDetails('July', '1 week');
+    explorePage.changeTripDetails('July', 'Weekend');
     await page.waitForTimeout(2000);
     explorePage.changeStopsNo('Nonstop only');
     await page.waitForTimeout(2000);

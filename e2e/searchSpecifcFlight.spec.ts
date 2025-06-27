@@ -13,7 +13,7 @@ test('Search for a specific flight', async ({browser}) => {
     await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
-    await flightsPage.setRoute('Munich', 'London');
+    await flightsPage.setRoute('Prague', 'Copenhagen');
     await page.waitForLoadState('networkidle');
     await flightsPage.setLengthOfJourneyFromToday(5);
     await page.getByRole('button', { name: 'Search' }).first().click();

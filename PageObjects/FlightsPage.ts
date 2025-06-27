@@ -86,7 +86,7 @@ export default class FlightsPage extends CommonPage {
             const duration = await this.destinations.nth(i).locator(this.durationLocator).innerText();
             const price = await this.destinations.nth(i).locator('span[role="text"]').last().innerText();
             const route = await this.destinations.nth(i).locator(this.durationLocator).locator('xpath=./following-sibling::span[1]').innerText();
-            const company = await this.destinations.nth(i).locator('span[aria-label*="Leaves"]').locator('xpath=ancestor::div[3]//div[count(*)=1]/span[not(@*)]').innerText();
+            const company = await this.destinations.nth(i).locator('span[aria-label*="Leaves"]').locator('xpath=ancestor::div[3]/div[2]/div[2]/span[1]').innerText();
             flightData.push({
                 Route: route,
                 Hours: deptTime + ' - ' + arrTime,
