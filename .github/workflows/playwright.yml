@@ -14,8 +14,8 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-    - name: Set up npm auth
-      run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+    - name: Set npm registry to public
+      run: npm config set registry https://registry.npmjs.org/
     - name: Install dependencies
       run: npm ci
     - name: Install Playwright Browsers
