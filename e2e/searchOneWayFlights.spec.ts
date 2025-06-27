@@ -14,7 +14,7 @@ test('Search for nonstop one-way flights in Europe', async ({browser}, testInfo)
     const originCity = 'CLJ';
 
     await page.goto('flights')
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    // await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await commonPage.changeTicketType('One way');
@@ -42,7 +42,7 @@ test('Search for nonstop one-way flights with specific dates in Europe', async (
     const originCity = 'Malmö Municipality';
 
     await page.goto('flights')
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    // await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await commonPage.changeTicketType('One way');

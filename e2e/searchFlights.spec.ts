@@ -14,7 +14,7 @@ test('Search for nonstop flights in Europe', async ({browser}) => {
 
 
     await page.goto('flights')
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    // await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await flightsPage.whereFromInput.first().fill(originCity);
