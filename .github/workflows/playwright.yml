@@ -20,21 +20,24 @@ jobs:
       run: npm cache clean --force
     - name: Check npm config
       run: npm config list
-    - name: Install dependencies
-      run: npm ci
+    - name: Install dependencies (with forced log path)
+      run: npm ci --loglevel verbose --logfile ${{ github.workspace }}/npm-debug.log
+      # The npm debug log will now be at ${{ github.workspace }}/npm-debug.log
+      # which is /home/runner/work/GoogleFlghtsPlayWright/GoogleFlghtsPlayWright/npm-debug.log
+      env:
+        # Unset any potential proxy vars explicitly if they exist on the runner
+        # This is a bit of a shotgun approach, but safe for public registries.
+        HTTP_PROXY: ''
+        HTTPS_PROXY: ''
+        NO_PROXY: ''
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
       run: npx playwright test
-    # - uses: actions/upload-artifact@v4
-    #   if: always()
-    #   with:
-    #     name: playwright-report
-    #     path: playwright-report/
-    #     retention-days: 30
     - uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: debug-logs
-        path: home/runner/.npm/_logs/
-        retention-days: 1
+        name: playwright-report
+        path: playwright-report/
+        retention-days: 30
+
