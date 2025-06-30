@@ -10,7 +10,7 @@ test('Search for a specific flight', async ({browser}) => {
     const commonPage = new CommonPage(page);
 
     await page.goto('flights')
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    // await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await flightsPage.setRoute('Prague', 'Copenhagen');

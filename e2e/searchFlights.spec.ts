@@ -14,14 +14,16 @@ test('Search for nonstop flights in Europe', async ({browser}) => {
 
 
     await page.goto('flights')
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    // await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await flightsPage.whereFromInput.first().fill(originCity);
     await page.locator(`li[aria-label*="${originCity}"]`).first().click();
     const origin = await flightsPage.whereFromInput.first().inputValue();
     console.log(`Origin city is: ${origin}`);
-    await page.getByRole('button', { name: 'Explore' }).first().click();
+    let exploreBtn = page.getByRole('button', { name: 'Explore' }).first();
+    await exploreBtn.scrollIntoViewIfNeeded();
+    await exploreBtn.click();
     await page.waitForTimeout(1000);
     explorePage.changeTripDetails('July', 'Weekend');
     await page.waitForTimeout(2000);

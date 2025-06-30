@@ -14,7 +14,7 @@ test('Search for nonstop one-way flights in Europe', async ({browser}, testInfo)
     const originCity = 'CLJ';
 
     await page.goto('flights')
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    // await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await commonPage.changeTicketType('One way');
@@ -22,7 +22,9 @@ test('Search for nonstop one-way flights in Europe', async ({browser}, testInfo)
     await page.locator(`li[aria-label*="${originCity}"]`).first().click();
     const origin = await flightsPage.whereFromInput.first().inputValue();
     console.log(`[${testInfo.title}] Origin city is: ${origin}`);
-    await page.getByRole('button', { name: 'Explore' }).first().click();
+    let exploreBtn = page.getByRole('button', { name: 'Explore' }).first();
+    await exploreBtn.scrollIntoViewIfNeeded();
+    await exploreBtn.click();
     await page.waitForTimeout(1000);
     explorePage.changeSingleTripDetails('August');
     await page.waitForTimeout(2000);
@@ -42,7 +44,7 @@ test('Search for nonstop one-way flights with specific dates in Europe', async (
     const originCity = 'Malmö Municipality';
 
     await page.goto('flights')
-    await page.getByRole('button', { name: 'Reject all' }).click();
+    // await page.getByRole('button', { name: 'Reject all' }).click();
     commonPage.changeCurrency('EUR');
     await page.waitForLoadState('networkidle');
     await commonPage.changeTicketType('One way');
@@ -50,7 +52,9 @@ test('Search for nonstop one-way flights with specific dates in Europe', async (
     await page.locator(`li[aria-label*="${originCity}"]`).first().click();
     const origin = await flightsPage.whereFromInput.first().inputValue();
     console.log(`[${testInfo.title}] Origin city is: ${origin}`);
-    await page.getByRole('button', { name: 'Explore' }).first().click();
+    let exploreBtn = page.getByRole('button', { name: 'Explore' }).first();
+    await exploreBtn.scrollIntoViewIfNeeded();
+    await exploreBtn.click();
     await page.waitForTimeout(1000);
     explorePage.setSpecificDates('1 Aug');
     await page.waitForTimeout(2000);
