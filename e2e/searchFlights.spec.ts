@@ -21,7 +21,9 @@ test('Search for nonstop flights in Europe', async ({browser}) => {
     await page.locator(`li[aria-label*="${originCity}"]`).first().click();
     const origin = await flightsPage.whereFromInput.first().inputValue();
     console.log(`Origin city is: ${origin}`);
-    await page.getByRole('button', { name: 'Explore' }).first().click();
+    let exploreBtn = page.getByRole('button', { name: 'Explore' }).first();
+    await exploreBtn.scrollIntoViewIfNeeded();
+    await exploreBtn.click();
     await page.waitForTimeout(1000);
     explorePage.changeTripDetails('July', 'Weekend');
     await page.waitForTimeout(2000);
